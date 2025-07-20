@@ -11,7 +11,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest]
+        #os: [ubuntu-latest, macos-latest]
     env:
       BASE_DIR:  /home/runner/work/cling/cling
       BUILD_DIR: /home/runner/work/cling/cling/build
@@ -33,7 +34,9 @@ jobs:
 
       - name: Prepare build directory   
         run: |
+          pwd
           mkdir build
+          ls */
 
       - name: Configure
         working-directory: ${{ env.BUILD_DIR }}

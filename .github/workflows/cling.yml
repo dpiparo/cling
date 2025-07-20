@@ -8,7 +8,9 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on:
+      - ubuntu-latest
+      - macos-latest
     env:
       BASE_DIR:  /home/runner/work/cling/cling
       BUILD_DIR: /home/runner/work/cling/cling/build

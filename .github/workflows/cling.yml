@@ -12,9 +12,6 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-    env:
-      BASE_DIR:  /home/runner/work/cling/cling
-      BUILD_DIR: /home/runner/work/cling/cling/build
     steps:
       - name: Checkout LLVM
         uses: actions/checkout@v4
@@ -38,13 +35,13 @@ jobs:
           ls */
 
       - name: Configure
-        working-directory: ${{ env.BUILD_DIR }}
-        run: pwd && cmake -DLLVM_EXTERNAL_PROJECTS=cling -DLLVM_EXTERNAL_CLING_SOURCE_DIR=${{ env.BASE_DIR }}/cling/ -DLLVM_ENABLE_PROJECTS="clang" -DLLVM_TARGETS_TO_BUILD="host;NVPTX" -DCMAKE_BUILD_TYPE=Release ${{ env.BASE_DIR }}/llvm/llvm/
+        working-directory: build
+        run: pwd && cmake -DLLVM_EXTERNAL_PROJECTS=cling -DLLVM_EXTERNAL_CLING_SOURCE_DIR=../cling/ -DLLVM_ENABLE_PROJECTS="clang" -DLLVM_TARGETS_TO_BUILD="host;NVPTX" -DCMAKE_BUILD_TYPE=Release ../llvm/llvm/
 
       - name: Build
-        working-directory: ${{ env.BUILD_DIR }}
+        working-directory: build
         run: cmake --build . --parallel 4 --target clang cling
 
       - name: Test
-        working-directory: ${{ env.BUILD_DIR }}
+        working-directory: build
         run: make check-cling
